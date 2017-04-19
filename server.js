@@ -6,6 +6,7 @@ var express        = require('express'),
     routes         = require('./backend'),
     api            = require('./backend/api');
     Vue            = require('vue');
+    requirejs      = require('requirejs');
 
 Vue.use(require('vue-resource'));
 
