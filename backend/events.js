@@ -1,7 +1,7 @@
 module.exports = [
   {
     id: 1,
-    title: 'TIFF',
+    title: 'Tiff',
     detail: 'Toronto International Film Festival',
     date: '2015-12-12'
   },

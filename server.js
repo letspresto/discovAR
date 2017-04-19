@@ -4,14 +4,13 @@ var express        = require('express'),
     errorHandler   = require('errorhandler'),
     morgan         = require('morgan'),
     routes         = require('./backend'),
-    api            = require('./backend/api'),
-    multer         = require('multer'),
-    http           = require('http'),
-    vue            = require('vue');
+    api            = require('./backend/api');
+    Vue            = require('vue');
+
+Vue.use(require('vue-resource'));
 
 var app = module.exports = express();
 
-http = http.Server(app);
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(morgan('dev'));
@@ -20,7 +19,6 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(express.static(__dirname + '/'));
 app.use('/build', express.static('public'));
-
 
 var env = process.env.NODE_ENV;
 if ('development' == env) {
@@ -35,9 +33,8 @@ if ('production' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.all('/backend/events', api.events);
-app.all('/backend/events/:eventId', api.event);
-app.all('/backend/upload', api.upload);
+app.all('/api/events', api.events);
+app.all('/api/events/:eventId', api.event)
 
 app.listen(8080);
 console.log('Magic happens on port 8080...');

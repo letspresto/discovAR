@@ -1,4 +1,6 @@
-//var Vue = require('vue');
+// var Vue = require('vue');
+
+Vue.prototype.$http = axios;
 
 new Vue({
   el: '#events',
@@ -16,35 +18,38 @@ new Vue({
 
     fetchEvents: function () {
       var events = [];
-      this.$set('events', events);
-      this.$http.get('/backend/events').success(function (events) {
+      // this.$set('events', events);
+      this.$http.get('/api/events').then(function (events) {
           this.$set('events', events);
           console.log(events);
-        }).error(function (err) {
+        })
+        .catch(function (err) {
           console.log(err);
         });
     },
 
     addEvent: function () {
       if (this.event.title.trim()) {
-        this.events.push(this.event);
-        this.event = { title: '', detail: '', date: '' };
-        this.$http.post('/backend/events', this.event).success(function (res) {
+        // this.events.push(this.event);
+        // this.event = { title: '', detail: '', date: '' };
+        this.$http.post('/api/events', this.event).then(function (response) {
             this.events.push(this.event);
             console.log('Event added!');
-          }).error(function (err) {
+          })
+          .catch(function (err) {
             console.log(err);
           });
       }
     },
 
     deleteEvent: function (index) {
-      if (confirm("Do you want to delete this event?")) {
-        //this.events.splice(index, 1);
-        this.$http.delete('/backend/events/' + event.id).success(function (res) {
-            console.log(res);
-            this.events.$remove(index);
-          }).error(function (err) {
+      if (confirm('Are you sure you want to delete?')) {
+        // this.events.splice(index, 1);
+        this.$http.delete('api/events/' + event.id).then(function (response) {
+            console.log(response);
+            this.events.splice(index, 1);
+          })
+          .catch(function (err) {
             console.log(err);
           });
       }
